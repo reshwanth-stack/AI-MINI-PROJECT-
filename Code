@@ -1,1 +1,44 @@
+tasks = []
 
+def chatbot_response(user_input):
+    user_input = user_input.lower()
+
+    if "add" in user_input:
+        task = user_input.replace("add", "").replace("task", "").strip()
+        if task:
+            tasks.append(task)
+            return f"Task added: '{task}'"
+        else:
+            return "Please specify the task to add."
+    
+    elif "show" in user_input or "view" in user_input:
+        if not tasks:
+            return "Your task list is empty."
+        else:
+            response = "Here are your tasks:\n"
+            for i, t in enumerate(tasks, start=1):
+                response += f"{i}. {t}\n"
+            return response.strip()
+    
+    elif "delete" in user_input or "remove" in user_input:
+        if not tasks:
+            return "No tasks to delete."
+        else:
+            tasks.clear()
+            return "All tasks deleted successfully."
+    
+    elif "exit" in user_input or "quit" in user_input:
+        return "Goodbye! Have a productive day."
+    
+    else:
+        return "Sorry, I didn't understand that. Try commands like 'add', 'show', or 'delete'."
+
+print("🤖 Personal Task Manager Chatbot")
+print("Type 'exit' to end the chat.\n")
+
+while True:
+    user_input = input("You: ")
+    response = chatbot_response(user_input)
+    print("Bot:", response)
+    if "Goodbye" in response:
+        break
